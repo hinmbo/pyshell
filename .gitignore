@@ -172,3 +172,4 @@ cython_debug/
 
 # Local data
 .userdata/
+.userdata/users.json
