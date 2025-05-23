@@ -193,7 +193,7 @@ def dr(args):
     global dir_show_on
     dir_show_on = not dir_show_on
     print("[pygreen]Directory shown has been turned", end='')
-    print(f"[pygreen] {"on." if dir_show_on else "off."}")
+    print(f"[pygreen] {'on.' if dir_show_on else 'off.'}")
     
 
 def pwd(args):

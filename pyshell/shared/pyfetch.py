@@ -17,17 +17,21 @@ def _get_os():
     os_name = platform.system()
     os_version = platform.version()
     os_release = platform.release()
-    return f"{os_name} {os_release} (Version: {os_version})"
+    return f"{os_name} {os_release} (v{os_version})"
 
 def _get_hostname():
     return socket.gethostname()
 
 def _get_kernel():
-    kernel_v = platform.uname()
-    if kernel_v != "95":
-        return "Windows NT kernel"
+    uname_info = platform.uname()
+    if uname_info.system == "Windows":
+        return f"Windows NT Kernel "
+    elif uname_info.system == "Linux":
+        return uname_info.release # This usually gives the kernel version like "5.15.0-101-generic"
+    elif uname_info.system == "Darwin": # macOS
+        return f"Darwin Kernel (Release: {uname_info.release})"
     else:
-        return kernel_v
+        return uname_info.system # Fallback for other OSes
 
 def _get_uptime():
     return datetime.timedelta(seconds=(psutil.time.time() - psutil.boot_time()))
@@ -44,24 +48,25 @@ def _get_screen_res():
     
 def _get_cpu():
     cpu_proc = CPUtils.get_cpu_brand()
-    cpu_threads = psutil.cpu_count(logical=True)
-    cpu_cores = cpu_threads / 2
-    return f"{cpu_proc} ({int(cpu_cores)}C / {cpu_threads}T)"
+    cpu_logical_cores = psutil.cpu_count(logical=True)
+    cpu_physical_cores = psutil.cpu_count(logical=False)
+    return f"{cpu_proc} ({cpu_physical_cores}C / {cpu_logical_cores}T)"
 
 def _get_gpu():
-    gpus = GPUtil.getGPUs()
-
-    if not gpus:
-        return f"GPU not detected."
-    
     try:
-        for i, gpu in enumerate(gpus):
-            gpu_id = gpu.id
-            gpu_name = gpu.name
-            gpu_mem_total = gpu.memoryTotal
-        return f"{gpu_name} (VRAM: {int(gpu_mem_total)}MB)"
-    except Exception:
-        return f"GPU information unavailable"
+        gpus = GPUtil.getGPUs()
+        if not gpus:
+            return "GPU not detected."
+
+        gpu_info_list = []
+        for gpu in gpus:
+            # You might want to include ID or utilization here too
+            gpu_info_list.append(f"{gpu.name} (VRAM: {int(gpu.memoryTotal)}MB)")
+        return ", ".join(gpu_info_list)
+    except Exception as e:
+        # It's good to log the actual exception for debugging
+        # print(f"DEBUG: Error in _get_gpu: {e}")
+        return "GPU information unavailable"
     
 
 def _get_mem():
