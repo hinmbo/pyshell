@@ -94,7 +94,7 @@ Here are a few examples demonstrating PyShell's functionality:
   > pyfetch
   ┏━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
   ┃ pyfetch    ┃ System Information                            ┃
-  ┡━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩             
+  ┡━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
   │ OS         │ Windows 11 (v10.0.26100)                      │
   │ Host       │ SN1987A-S                                     │
   │ Kernel     │ Windows NT kernel                             │
